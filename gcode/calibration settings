@@ -5,4 +5,4 @@ Recv: echo:  M92 X80.00 Y80.00 Z800.00 E100
 
 # Calibrated setting
 Recv: echo: Steps per unit:
-Recv: echo:  M92 X79.92 Y79.92 Z813.00 E102.01
+Recv: echo:  M92 X80.00 Y80.00 Z813.00 E102.01
