@@ -5,16 +5,31 @@ M205 X8.00 Y8.00 Z0.40 E5.00 ;Setup Jerk
 M220 S100 ;Reset Feedrate
 M221 S100 ;Reset Flowrate
 
-G28 ;Home
+
+; Start of custom ABL GCode to prevent hot end from warming up first
+M117 Preheating Bed
+M140 S{material_bed_temperature_layer_0} ; Set Heat Bed temperature
+M190 S{material_bed_temperature_layer_0} ; Wait for Heat Bed temperature
+M117 Preheating Hotend
+M104 S160; start warming hotend to 160
+
+G28 ; Home all axes
+
+M117 Running ABL
+G29 ; ABL Go
+
+; M420 S1 Z2 ; Use Saved ABL Mesh
 
 G92 E0 ;Reset Extruder
-G1 Z2.0 F3000 ;Move Z Axis up
 
+M117 Heating Hotend
+M104 S{material_print_temperature_layer_0} ; Set Hotend temperature
+M109 S{material_print_temperature_layer_0} ; Wait for Hotend temperature
+
+G1 Z2.0 F3000 ; move z up little to prevent scratching of bed
 G1 X10.1 Y20 Z0.28 F5000.0 ;Move to start position
-G1 X10.1 Y200.0 Z0.28 F1500.0 E15 ;Draw the first line
-G1 X10.4 Y200.0 Z0.28 F5000.0 ;Move to side a little
-G1 X10.4 Y20 Z0.28 F1500.0 E30 ;Draw the second line
-G92 E0 ;Reset Extruder
-G1 Z2.0 F3000 ;Move Z Axis up
 
-# https://www.reddit.com/r/ender5/comments/goygbl/getting_started_with_the_ender_55_pro/
+M117 Printing...
+
+; End of custom start GCode
+
